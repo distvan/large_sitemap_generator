@@ -60,6 +60,9 @@ class SiteMap extends ScriptBase{
       //NEXT CREATE PRODUCTS
       $this->writeProducts();
 
+      //NEXT CREATE BLOG POST
+      $this->writeBlogs();
+      
       //END
       $output  = '</urlset>';
       file_put_contents($this->_sitemapFile.self::FILE_EXTENSION, $output, FILE_APPEND);
@@ -176,6 +179,33 @@ class SiteMap extends ScriptBase{
       $output .= $this->getCategories(0);
 
       file_put_contents($this->_sitemapFile.self::FILE_EXTENSION, $output, FILE_APPEND);
+    }
+
+    //for journal
+    protected function writeBlogs()
+    {
+        //check journal installed
+        if($this->_registry->get('db')->query('show tables like "' . DB_PREFIX . 'journal2_config"')->num_rows === 0){
+            return;
+        }
+
+        $output = '';
+        $this->load->model('journal2/blog');
+
+        $data = array();
+        $posts = $this->model_journal2_blog->getPosts($data);
+        if($posts)
+        {
+            foreach($posts as $post) {
+                $output .= '<url>';
+                $output .= '<loc>' . $this->url->link('journal2/blog/post', 'journal_blog_post_id=' . $post['post_id']) . '</loc>';
+                $output .= '<changefreq>weekly</changefreq>';
+                $output .= '<priority>0.7</priority>';
+                $output .= '</url>';
+            }
+        }
+
+        file_put_contents($this->_sitemapFile.self::FILE_EXTENSION, $output, FILE_APPEND);
     }
 
     protected function writeProducts()
