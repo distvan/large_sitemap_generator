@@ -214,13 +214,13 @@ class SiteMap extends ScriptBase{
       $this->load->model('catalog/product');
 
       $totalProductNum = $this->model_catalog_product->getTotalProducts();
-      $to = round($totalProductNum / self::PRODUCT_PROCESS_NUM);
+      $to = round($totalProductNum / self::PRODUCT_PROCESS_NUM) + 1;
       for($i=0;$i <= $to; $i++)
       {
         $from = $i * self::PRODUCT_PROCESS_NUM;
         $data = array(
           "start" => $from + 1,
-          "limit" => $from + self::PRODUCT_PROCESS_NUM
+          "limit" => self::PRODUCT_PROCESS_NUM
         );
         $products = $this->model_catalog_product->getProducts($data);
         $output = '';
