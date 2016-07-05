@@ -19,6 +19,9 @@ class SiteMap extends ScriptBase{
         set_time_limit(0);
         ini_set('memory_limit', '-1');
         parent::__construct();
+        //enable seourl-s
+        $seoCtrl = new ControllerCommonSeoUrl($this->_registry);
+        $this->url->addRewrite($seoCtrl);
         $this->_sitemapFile = $this->_baseDir . 'sitemap/' . $file;
 
         if(!is_dir($this->_baseDir . "sitemap"))
