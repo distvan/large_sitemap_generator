@@ -23,7 +23,9 @@ class ScriptBase
 		require_once $this->_baseDir . 'system/engine/model.php';
 		require_once $this->_baseDir . 'system/library/log.php';
 		require_once $this->_baseDir . 'system/helper/utf8.php';
-
+		require_once(DIR_SYSTEM . 'engine/controller.php');
+        	require_once(DIR_APPLICATION . 'controller/common/seo_url.php');
+		
 		$this->_registry = new Registry();
 		$loader = new Loader($this->_registry);
 		$this->_registry->set('load', $loader);
